@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Bharath Smart_Contract</title>
+
+<link rel="stylesheet" type="text/css" href="main.css">
+
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+		<h1><u>Bharath Smart-Contract</u></h1>
+		
+		<h2>Address</h2>
+		<label id="address"></label>
+
+		<h2>Name</h2>
+		<label id="name"></label>
+
+		<h2>Balance</h2>
+		<label id="balance"></label>
+
+		<h2>Decimals</h2>
+		<label id="decimals"></label>
+
+		<h2>Owner</h2>
+		<label id="owner"></label>
+
+		<h2>Symbol</h2>
+		<label id="symbol"></label>
+
+		<h2>TotalSupply</h2>
+		<label id="totalSupply"></label>
+
+
+
+		<!-- <label for="name" class="col-lg-2 control-label">Name</label>
+		<input id="Name">
+
+		<label for="name" class="col-lg-2 control-label">Owner</label>
+		<input id="Owner" type="text">
+		
+		<label for="name" class="col-lg-2 control-label">Transfer to</label>
+		<input id="Transfert to" type="text">
+		
+        <label for="name" class="col-lg-2 control-label">Balance</label>
+		<input id="balance" type="uint">
+		
+		<label for="name" class="col-lg-2 control-label">Symbol</label>
+		<input id="Symbol" type="text">
+		
+		<label for="name" class="col-lg-2 control-label">totalSupply</label>
+		<input id="totalSupply" type="text"> -->
+
+
+        <!-- <button id="button">Fetch</button> -->
+    
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+<script>
+
+if (typeof web3 !== 'undefined') {
+
+web3 = new Web3(web3.currentProvider);
+
+console.log("connected to metamask")
+
+} else {
+
+
+web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+console.log("Connected to localhost")
+
+}
+
+var createtokensContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "remaining",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "balance",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "totalSupply",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+
+	var createtokens = createtokensContract.at('0xbc51340dd8221fe4b145d27dca1c9b146687b2f7');
+
+	console.log(createtokens);
+
+	web3.eth.defaultAccount = web3.eth.accounts[0];
+	console.log(web3.eth.defaultAccount);
+	$("#address").html(web3.eth.defaultAccount);
+	//$("#owner").html(web3.eth.defaultAccount);
+
+	// web3.eth.name= web3.eth.accounts[0];
+		createtokens.name(web3.eth.name,function(err,res){
+		if(err){
+			console.log(err)
+			}else{
+				$("#name").html(res)
+			console.log(res)
+					
+			}
+		});
+		createtokens.symbol(web3.eth.symbol,function(err,res){
+		if(err){
+			console.log(err)
+			}else{
+				$("#symbol").html(res)
+			console.log(res)
+					
+			}
+		});
+
+		createtokens.decimals(web3.eth.decimals,function(err,res){
+		if(err){
+			console.log(err)
+			}else{
+				$("#decimals").html(res.c[0])
+				console.log(res)	
+			}
+		});
+
+	web3.eth.defaultBalance = web3.eth.accounts[0];
+		createtokens.balanceOf(web3.eth.defaultBalance,function(err,res){
+		if(!err){
+			$("#balance").html(res.c[0])
+					console.log(res)
+			}else{
+				console.log(err)
+			}
+		});
+
+		createtokens.owner(web3.eth.owner,function(err,res){
+		if(!err){
+			$("#owner").html(res)
+					console.log(res)
+			}else{
+				console.log(err)
+			}
+		});
+
+		createtokens.totalSupply(web3.eth.totalSupply,function(err,res){
+		if(err){
+			console.log(err)
+			}else{
+				$("#totalSupply").html(res.c[0])
+				console.log(res)	
+			}
+		});
+	
+</script>
+</body>
+</html>
