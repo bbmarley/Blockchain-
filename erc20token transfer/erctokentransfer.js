@@ -282,7 +282,7 @@ var rawTransaction = {
 // count++
 // }
 
-var privKey = new Buffer('273A9DFBA15B2730A05DBB8B05445C55309B7CB761595BEA4C7D91EE2B85804F', 'hex');
+var privKey = new Buffer('3A9DFBA15B2730A05DBB8B05491EE2B85804F', 'hex');
 var tx = new Tx(rawTransaction);
 tx.sign(privKey);
 var serializedTx = tx.serialize();
