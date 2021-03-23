@@ -3,8 +3,8 @@ const client = new Client({
 network:'mainnet',
 host:'localhost',
 port: 8332,
-username: 'bharath',
-password: 'marley'
+username: 'bb',
+password: 'mainet123'
 });
 
 client.getblockchaininfo((error, res) => {
